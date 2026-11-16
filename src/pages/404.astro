@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site.js';
+---
+<Base title="Page not found" description="This page doesn't exist.">
+  <section class="dark plan-grid">
+    <div class="wrap py-24 md:py-36">
+      <h1 class="max-w-[14ch]">This page doesn't exist.</h1>
+      <p class="lede mt-6 max-w-[44ch]">Looking for a contractor for your building?</p>
+      <p class="mt-9 flex flex-col gap-5 md:flex-row md:items-center md:gap-7">
+        <a href="/request/" class="btn">{site.cta}</a>
+        <a href="/" class="link-quiet">Go to the homepage</a>
+      </p>
+    </div>
+  </section>
+</Base>

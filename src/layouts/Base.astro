@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import archivoFont from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import { site } from '../data/site.js';
+
+const { title, description, dock = false } = Astro.props;
+const fullTitle = title ? `${title} | North Facilities` : 'North Facilities | Commercial contractors, lined up for you';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#15212a" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href={archivoFont} as="font" type="font/woff2" crossorigin />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-tag focus:px-4 focus:py-3 focus:font-bold focus:text-ink">Skip to main content</a>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer dock={dock} />
+    {dock && (
+      <div class="dock" data-dock>
+        <a href="/request/" class="btn">{site.cta}</a>
+      </div>
+      <script is:inline>
+        (function () {
+          var dock = document.querySelector('[data-dock]');
+          var hideNear = document.querySelectorAll('[data-dock-hide]');
+          function update() {
+            var past = window.scrollY > 560;
+            var near = false;
+            hideNear.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top < window.innerHeight && r.bottom > 0) near = true; });
+            dock.classList.toggle('is-on', past && !near);
+          }
+          window.addEventListener('scroll', update, { passive: true });
+          update();
+        })();
+      </script>
+    )}
+  </body>
+</html>

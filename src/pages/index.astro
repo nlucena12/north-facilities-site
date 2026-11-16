@@ -1,0 +1,195 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import RequestForm from '../components/RequestForm.astro';
+import { site, services } from '../data/site.js';
+
+const promises = [
+  { title: 'Free for you', text: 'The contractor pays us a referral fee. You never get a bill from us.' },
+  { title: 'One contractor, not ten calls', text: 'Each job goes to one company. Nobody else gets your details.' },
+  { title: 'Insurance checked first', text: 'We get a current insurance certificate before any introduction.' },
+  { title: 'No pressure', text: "Don't like the quote? Say no. That's the end of it." },
+];
+
+const steps = [
+  { title: 'Tell us the job', text: 'Pick the service, the area and the timing. It takes about a minute.' },
+  { title: 'We find one contractor', text: 'Local, insured, and does this kind of commercial work. We reply ' + site.replyTime + '.' },
+  { title: 'They walk the site', text: 'We set the visit for a time that suits you. They look and quote.' },
+  { title: 'You decide', text: 'Hire them or not. Either way, it cost you nothing.' },
+];
+
+const yourself = [
+  'Search for contractors who do commercial work',
+  'Call around and wait for callbacks',
+  'Chase insurance certificates',
+  'Book and rebook site visits',
+  'Field sales calls from everyone you contacted',
+];
+const withNorth = ['Fill in one short form', 'Meet one contractor on site', 'Get a quote'];
+---
+<Base dock description="Tell us what your building needs. North Facilities lines up one insured commercial contractor in Chicago or South Florida and sets the walkthrough. Free for property managers.">
+
+  <!-- Hero: headline over the photo, with "what do you need?" live in the card -->
+  <section class="hero">
+    <div class="hero-media"><Photo name="hero" sizes="100vw" eager /></div>
+    <div class="wrap cols items-center gap-y-10 py-10 md:py-16 lg:py-20">
+      <div class="col-span-full lg:col-span-7">
+        <p class="hero-note" style="border-radius: 0.875rem;">
+          <i></i>
+          <span>Chicago, Miami-Dade and Broward</span>
+        </p>
+        <h1 class="mt-6">Need a commercial contractor? We'll line one up.</h1>
+        <p class="wide mt-5 text-[1.375rem] font-bold leading-tight md:text-[1.75rem]" style="color: #f4f6f4;">One form. One contractor. Free for you.</p>
+        <p class="lede mt-5 max-w-[50ch]">
+          Tell us what your building needs. We find one insured contractor and set up the walkthrough.
+        </p>
+        <div class="mt-8 flex flex-col gap-5 md:flex-row md:items-center md:gap-7">
+          <a href="/request/" class="btn">{site.cta}</a>
+          <a href="/contractors/" class="link-quiet">I'm a contractor</a>
+        </div>
+      </div>
+
+      <div class="col-span-full lg:col-span-5">
+        <div class="card card-lift hang p-5 md:p-7">
+          <p class="small font-semibold text-soft">Start here. One tap.</p>
+          <h2 class="mt-1 text-[1.5rem] md:text-[1.75rem]" style="line-height: 1.12;">What does your building need?</h2>
+          <ul class="mt-5 grid gap-2.5">
+            {services.map((s) => (
+              <li><a class="answer" href={`/request/?service=${s.id}`}>{s.label}</a></li>
+            ))}
+            <li><a class="answer" href="/request/">Something else</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What you get -->
+  <section class="after-hang pb-4">
+    <div class="wrap">
+      <ul class="grid gap-x-8 gap-y-7 md:grid-cols-2 lg:grid-cols-4">
+        {promises.map((p) => (
+          <li class="border-t-[3px] border-ink pt-4">
+            <h2 class="text-[1.25rem]" style="font-stretch: 110%; letter-spacing: -0.01em; line-height: 1.2;">{p.title}</h2>
+            <p class="mt-2 max-w-[38ch] text-soft">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="dark plan-grid section mt-16 md:mt-20" id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <ol class="route mt-12">
+        {steps.map((s) => (
+          <li>
+            <h3>{s.title}</h3>
+            <p class="mt-2 max-w-[36ch]">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="mt-12"><a href="/request/" class="btn w-full md:w-auto">{site.cta}</a></p>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section">
+    <div class="wrap">
+      <h2>What we cover</h2>
+      <p class="lede measure mt-4 text-soft">Offices, retail, industrial buildings, condos and HOAs.</p>
+    </div>
+    <div class="mx-auto mt-9 w-full max-w-[76rem] md:px-8">
+      <ul class="rail" tabindex="0" aria-label="Services">
+        {services.map((s) => (
+          <li>
+            <a href={`/request/?service=${s.id}`} class="svc" style="text-decoration: none;">
+              <Photo name={s.photo} sizes="(min-width: 48rem) 45vw, 82vw" />
+              <div class="svc-body">
+                <h3>{s.label}</h3>
+                <p>{s.text}</p>
+                <p class="mt-4 font-bold" style="color: #8fd3ff;">Request a walkthrough &rarr;</p>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Why one contractor -->
+  <section class="section pt-0">
+    <div class="wrap">
+      <h2 class="max-w-[24ch]">Skip the calling around</h2>
+      <div class="cols mt-10 items-start gap-y-6">
+        <div class="col-span-full rounded-3xl border-[1.5px] border-dashed border-soft/50 p-6 md:col-span-4 md:p-8 lg:col-span-6">
+          <h3>Finding a contractor yourself</h3>
+          <ul class="dashes mt-5">
+            {yourself.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="dark col-span-full rounded-3xl p-6 shadow-lift md:col-span-4 md:p-8 lg:col-span-6">
+          <h3>With North Facilities</h3>
+          <ul class="checks mt-5 text-[1.125rem] font-semibold">
+            {withNorth.map((item) => <li>{item}</li>)}
+          </ul>
+          <p class="mt-6">We handle the rest.</p>
+          <p class="mt-6"><a href="/request/" class="btn w-full">{site.cta}</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section bg-wash" id="faq">
+    <div class="wrap cols gap-y-8">
+      <h2 class="col-span-full lg:col-span-4">Quick answers</h2>
+      <div class="faq col-span-full lg:col-span-8">
+        <details>
+          <summary>Is it really free for property managers?</summary>
+          <div class="answer-text">Yes. We're a referral service. The contractor pays us a flat fee when a walkthrough happens. You never get a bill from us.</div>
+        </details>
+        <details>
+          <summary>Who are you?</summary>
+          <div class="answer-text">North Facilities matches commercial buildings with one contractor per job. We don't do the work ourselves. We find the right company and set up the visit.</div>
+        </details>
+        <details>
+          <summary>How do you pick the contractor?</summary>
+          <div class="answer-text">They're local, they do commercial work of your type, and they send us a current insurance certificate before we introduce them. Then it's your call.</div>
+        </details>
+        <details>
+          <summary>Will I get a lot of sales calls?</summary>
+          <div class="answer-text">No. Your details go to one contractor only, for this one job.</div>
+        </details>
+        <details>
+          <summary>Do I have to hire them?</summary>
+          <div class="answer-text">No. If the quote doesn't work for you, say no. There's no fee and no follow-up from us about it.</div>
+        </details>
+        <details>
+          <summary>Do you work outside Chicago and South Florida?</summary>
+          <div class="answer-text">Not yet. Send the request anyway. If we can't cover it, we'll tell you straight away.</div>
+        </details>
+        <details>
+          <summary>I'm a contractor. How does it work for me?</summary>
+          <div class="answer-text">You pay a flat fee only when a walkthrough happens, and each job goes to you alone. <a href="/contractors/">See how it works for contractors</a>.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final call to action -->
+  <section class="dark plan-grid section" id="book">
+    <div class="wrap cols items-center gap-y-10">
+      <div class="col-span-full lg:col-span-6">
+        <h2>{site.cta}</h2>
+        <p class="lede mt-5 max-w-[36ch]">Tell us the job. We find one contractor and email you {site.replyTime}.</p>
+      </div>
+      <div class="col-span-full lg:col-span-6">
+        <div class="card card-lift p-5 md:p-8">
+          <RequestForm id="home" source="home" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

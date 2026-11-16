@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site.js';
+---
+<Base title="Got it" description="We received your request.">
+  <section class="dark plan-grid">
+    <div class="wrap py-24 md:py-36">
+      <h1 class="max-w-[14ch]">Got it. Thanks.</h1>
+      <p class="lede mt-6 max-w-[44ch]">We'll email you {site.replyTime}. Nothing else you need to do.</p>
+      <p class="mt-9"><a href="/" class="btn">Back to the homepage</a></p>
+    </div>
+  </section>
+</Base>

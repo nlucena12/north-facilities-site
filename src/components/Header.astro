@@ -1,0 +1,34 @@
+---
+import Logo from './Logo.astro';
+import { site } from '../data/site.js';
+const links = [
+  { href: '/#how', label: 'How it works' },
+  { href: '/contractors/', label: 'For contractors' },
+];
+const here = Astro.url.pathname.replace(/\/?$/, '/');
+---
+<header class="site-header">
+  <div class="wrap flex items-center justify-between gap-4 py-3">
+    <a href="/" class="brand" aria-label={`${site.name} home`}>
+      <Logo />
+      {site.name}
+    </a>
+
+    <nav aria-label="Main" class="hidden items-center gap-8 lg:flex">
+      {links.map((l) => (
+        <a href={l.href} class="nav-link" aria-current={here === l.href ? 'page' : undefined}>{l.label}</a>
+      ))}
+      <a href="/request/" class="btn btn-compact">{site.cta}</a>
+    </nav>
+
+    <details class="relative lg:hidden">
+      <summary class="menu-btn">Menu</summary>
+      <nav aria-label="Main" class="menu-panel card card-lift">
+        {links.map((l) => (
+          <a href={l.href} aria-current={here === l.href ? 'page' : undefined}>{l.label}</a>
+        ))}
+        <a href="/request/" class="btn mt-2">{site.cta}</a>
+      </nav>
+    </details>
+  </div>
+</header>

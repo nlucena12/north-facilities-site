@@ -1,0 +1,58 @@
+---
+// Contractors' form. Submissions go to Netlify Forms under "contractor-signup".
+import { site, trades } from '../data/site.js';
+const { id = 'pro' } = Astro.props;
+---
+<form
+  name="contractor-signup"
+  method="POST"
+  action="/thanks/?from=contractor"
+  data-netlify="true"
+  netlify-honeypot="company-site"
+  class="grid gap-4"
+  data-dock-hide
+  id={`${id}-form`}
+>
+  <input type="hidden" name="form-name" value="contractor-signup" />
+  <p class="hidden">
+    <label>Leave this empty <input name="company-site" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <div class="field">
+      <label for={`${id}-name`}>Your name</label>
+      <input id={`${id}-name`} name="name" type="text" autocomplete="name" required />
+    </div>
+    <div class="field">
+      <label for={`${id}-company`}>Company</label>
+      <input id={`${id}-company`} name="company" type="text" autocomplete="organization" required />
+    </div>
+  </div>
+  <div class="field">
+    <label for={`${id}-email`}>Email</label>
+    <input id={`${id}-email`} name="email" type="email" autocomplete="email" required />
+  </div>
+  <div class="grid gap-4 md:grid-cols-2">
+    <div class="field">
+      <label for={`${id}-trade`}>Trade</label>
+      <select id={`${id}-trade`} name="trade" required>
+        <option value="">Choose one</option>
+        {trades.map((t) => <option>{t}</option>)}
+      </select>
+    </div>
+    <div class="field">
+      <label for={`${id}-area`}>Area</label>
+      <select id={`${id}-area`} name="area" required>
+        <option value="">Choose one</option>
+        <option>Chicago area</option>
+        <option>Miami-Dade</option>
+        <option>Broward</option>
+        <option>Chicago and South Florida</option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="btn mt-1 w-full">{site.contractorCta}</button>
+    <p class="small mt-3 text-center text-soft">We email you the fee for your trade. No obligation.</p>
+  </div>
+</form>

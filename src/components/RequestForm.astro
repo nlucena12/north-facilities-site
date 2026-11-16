@@ -1,0 +1,77 @@
+---
+// Property managers' form. Submissions go to Netlify Forms under "walkthrough-request".
+// A link like /request/?service=cleaning pre-picks the service.
+import { site, services, areas, timings } from '../data/site.js';
+const { id = 'req', source = '' } = Astro.props;
+---
+<form
+  name="walkthrough-request"
+  method="POST"
+  action="/thanks/"
+  data-netlify="true"
+  netlify-honeypot="company-site"
+  class="grid gap-4"
+  data-dock-hide
+  data-request-form
+  id={`${id}-form`}
+>
+  <input type="hidden" name="form-name" value="walkthrough-request" />
+  <input type="hidden" name="source-page" value={source} />
+  <p class="hidden">
+    <label>Leave this empty <input name="company-site" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="field">
+    <label for={`${id}-service`}>What does the building need?</label>
+    <select id={`${id}-service`} name="service" required data-service>
+      <option value="">Choose one</option>
+      {services.map((s) => <option value={s.label} data-id={s.id}>{s.label}</option>)}
+      <option value="Something else">Something else</option>
+    </select>
+  </div>
+  <div class="grid gap-4 md:grid-cols-2">
+    <div class="field">
+      <label for={`${id}-area`}>Where is it?</label>
+      <select id={`${id}-area`} name="area" required>
+        <option value="">Choose one</option>
+        {areas.map((a) => <option>{a}</option>)}
+      </select>
+    </div>
+    <div class="field">
+      <label for={`${id}-timing`}>When?</label>
+      <select id={`${id}-timing`} name="timing" required>
+        <option value="">Choose one</option>
+        {timings.map((t) => <option>{t}</option>)}
+      </select>
+    </div>
+  </div>
+  <div class="grid gap-4 md:grid-cols-2">
+    <div class="field">
+      <label for={`${id}-name`}>Your name</label>
+      <input id={`${id}-name`} name="name" type="text" autocomplete="name" required />
+    </div>
+    <div class="field">
+      <label for={`${id}-email`}>Work email</label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" required />
+    </div>
+  </div>
+  <div class="field">
+    <label for={`${id}-notes`}>Building address or anything else <span class="opt">(optional)</span></label>
+    <textarea id={`${id}-notes`} name="notes" rows="3"></textarea>
+  </div>
+  <div>
+    <button type="submit" class="btn mt-1 w-full">{site.cta}</button>
+    <p class="small mt-3 text-center text-soft">Free. No phone number needed. We reply {site.replyTime}.</p>
+  </div>
+</form>
+
+<script is:inline>
+  (function () {
+    var want = new URLSearchParams(location.search).get('service');
+    if (!want) return;
+    document.querySelectorAll('[data-request-form] [data-service]').forEach(function (sel) {
+      var opt = sel.querySelector('option[data-id="' + want + '"]');
+      if (opt) sel.value = opt.value;
+    });
+  })();
+</script>
